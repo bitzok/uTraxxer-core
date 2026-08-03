@@ -1,0 +1,101 @@
+openapi: 3.0.3
+info:
+  title: uTraxxer - Módulo Identity - API
+  description: Módulo de inicio y registro de sesión para uTraxxer.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Localhost server to test
+
+paths:
+  /login:
+    post:
+      tags:
+        - Auth
+      operationId: loginUser
+      summary: Inicio de sesión a uTraxxer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Inicio de sesión satisfactorio.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityResponse'
+        '400':
+          description: Error en el Inicio de Sesión.
+
+  /register:
+    post:
+      tags:
+        - Auth
+      operationId: registerUser
+      summary: Registro de usuario a uTraxxer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '200':
+          description: Registro de usuario satisfactorio.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityResponse'
+        '400':
+          description: Error al registrar usuario.
+
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: 'uTraxxerG0d'
+        password:
+          type: string
+          example: 'P455w0rd'
+    RegisterRequest:
+      type: object
+      required:
+        - name
+        - lastname
+        - email
+        - username
+        - password
+      properties:
+        name:
+          type: string
+          example: 'John'
+        lastname:
+          type: string
+          example: 'Doe'
+        email:
+          type: string
+          example: 'johndoe@utraxxer.com'
+        username:
+          type: string
+          example: 'uTraxxerG0d'
+        password:
+          type: string
+          example: 'P455w0rd'
+    IdentityResponse:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          example: '415d1as54d1asd1asf1as'
