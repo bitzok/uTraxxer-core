@@ -1,4 +1,4 @@
-package com.utraxxer.core.identity.entity;
+package com.utraxxer.core.identity.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -7,14 +7,14 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class UserProfile {
+public class UserProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne
     @JoinColumn(name = "auth_id")
-    private UserAuth userAuth;
+    private UserAuthEntity userAuthEntity;
 
     @Column(nullable = false)
     private String name;

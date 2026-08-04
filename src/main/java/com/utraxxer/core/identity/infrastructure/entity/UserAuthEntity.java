@@ -1,4 +1,4 @@
-package com.utraxxer.core.identity.entity;
+package com.utraxxer.core.identity.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-public class UserAuth {
+public class UserAuthEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
