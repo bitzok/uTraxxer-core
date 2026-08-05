@@ -1,6 +1,6 @@
-package com.utraxxer.core.identity.infrastructure.repository;
+package com.utraxxer.core.identity.infrastructure.out.repository;
 
-import com.utraxxer.core.identity.infrastructure.entity.UserAuthEntity;
+import com.utraxxer.core.identity.infrastructure.out.entity.UserAuthEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

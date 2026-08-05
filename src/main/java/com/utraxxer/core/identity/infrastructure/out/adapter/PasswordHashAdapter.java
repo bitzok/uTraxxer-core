@@ -1,4 +1,4 @@
-package com.utraxxer.core.identity.infrastructure.adapter;
+package com.utraxxer.core.identity.infrastructure.out.adapter;
 
 import com.utraxxer.core.identity.domain.port.PasswordHashPort;
 import lombok.RequiredArgsConstructor;

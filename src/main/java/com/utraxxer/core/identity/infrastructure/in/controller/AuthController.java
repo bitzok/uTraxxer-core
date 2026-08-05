@@ -1,4 +1,4 @@
-package com.utraxxer.core.identity.presentation.controller;
+package com.utraxxer.core.identity.infrastructure.in.controller;
 
 import com.utraxxer.core.identity.api.AuthApi;
 import com.utraxxer.core.identity.model.IdentityResponse;

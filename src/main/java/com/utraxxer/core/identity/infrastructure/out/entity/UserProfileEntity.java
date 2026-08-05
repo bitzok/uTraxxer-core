@@ -1,4 +1,4 @@
-package com.utraxxer.core.identity.infrastructure.entity;
+package com.utraxxer.core.identity.infrastructure.out.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

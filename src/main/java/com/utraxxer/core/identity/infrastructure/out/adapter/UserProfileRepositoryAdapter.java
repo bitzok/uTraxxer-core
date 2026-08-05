@@ -1,11 +1,11 @@
-package com.utraxxer.core.identity.infrastructure.adapter;
+package com.utraxxer.core.identity.infrastructure.out.adapter;
 
 import com.utraxxer.core.identity.domain.model.UserProfile;
 import com.utraxxer.core.identity.domain.port.UserProfileRepositoryPort;
-import com.utraxxer.core.identity.infrastructure.entity.UserAuthEntity;
-import com.utraxxer.core.identity.infrastructure.entity.UserProfileEntity;
-import com.utraxxer.core.identity.infrastructure.repository.UserAuthRepository;
-import com.utraxxer.core.identity.infrastructure.repository.UserProfileRepository;
+import com.utraxxer.core.identity.infrastructure.out.entity.UserAuthEntity;
+import com.utraxxer.core.identity.infrastructure.out.entity.UserProfileEntity;
+import com.utraxxer.core.identity.infrastructure.out.repository.UserAuthRepository;
+import com.utraxxer.core.identity.infrastructure.out.repository.UserProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
