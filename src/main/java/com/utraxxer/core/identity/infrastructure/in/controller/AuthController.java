@@ -4,6 +4,7 @@ import com.utraxxer.core.identity.api.AuthApi;
 import com.utraxxer.core.identity.model.IdentityResponse;
 import com.utraxxer.core.identity.model.RegisterRequest;
 import com.utraxxer.core.identity.application.usecase.RegisterUserUseCase;
+import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
