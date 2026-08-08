@@ -7,6 +7,8 @@ import com.utraxxer.core.identity.infrastructure.out.repository.UserAuthReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class UserAuthRepositoryAdapter implements UserAuthRepositoryPort {
@@ -20,6 +22,18 @@ public class UserAuthRepositoryAdapter implements UserAuthRepositoryPort {
     @Override
     public boolean existsByUsername(String username) {
         return springRepository.existsByUsername(username);
+    }
+
+    @Override
+    public Optional<UserAuth> findByEmailOrUsername(String identifier){
+        Optional<UserAuthEntity> userAuth = springRepository.findByEmailOrUsername(identifier, identifier);
+
+        return userAuth.map(entity -> {
+            UserAuth domainUser = new UserAuth();
+            domainUser.setEmail(entity.getEmail());
+            domainUser.setPassword(entity.getPassword());
+            return domainUser;
+        });
     }
 
     @Override

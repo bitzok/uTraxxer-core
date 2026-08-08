@@ -2,9 +2,10 @@ package com.utraxxer.core.identity.infrastructure.in.controller;
 
 import com.utraxxer.core.identity.api.AuthApi;
 import com.utraxxer.core.identity.model.IdentityResponse;
+import com.utraxxer.core.identity.model.LoginRequest;
 import com.utraxxer.core.identity.model.RegisterRequest;
 import com.utraxxer.core.identity.application.usecase.RegisterUserUseCase;
-import io.swagger.models.Response;
+import com.utraxxer.core.identity.application.usecase.LoginUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,19 +14,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController implements AuthApi {
     private final RegisterUserUseCase registerUserUseCase;
+    private final LoginUseCase loginUseCase;
 
     @Override
     public ResponseEntity<IdentityResponse> registerUser(RegisterRequest registerRequest){
-        registerUserUseCase.execute(
+        String token = registerUserUseCase.execute(
                 registerRequest.getName(),
                 registerRequest.getLastname(),
                 registerRequest.getEmail(),
                 registerRequest.getUsername(),
                 registerRequest.getPassword()
         );
-
         IdentityResponse response = new IdentityResponse();
-        response.setToken("token-temporal-hasta-que-hagamos-jwt");
+        response.setToken(token);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<IdentityResponse> loginUser(LoginRequest loginRequest) {
+        String token = loginUseCase.execute(
+                loginRequest.getUsername(),
+                loginRequest.getPassword()
+        );
+        IdentityResponse response = new IdentityResponse();
+        response.setToken(token);
 
         return ResponseEntity.ok(response);
     }

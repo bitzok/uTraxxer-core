@@ -2,6 +2,7 @@ package com.utraxxer.core.identity.application.usecase;
 
 import com.utraxxer.core.identity.domain.model.UserAuth;
 import com.utraxxer.core.identity.domain.model.UserProfile;
+import com.utraxxer.core.identity.domain.port.GenerateTokenPort;
 import com.utraxxer.core.identity.domain.port.PasswordHashPort;
 import com.utraxxer.core.identity.domain.port.UserAuthRepositoryPort;
 import com.utraxxer.core.identity.domain.port.UserProfileRepositoryPort;
@@ -15,9 +16,10 @@ public class RegisterUserUseCase {
     private final UserAuthRepositoryPort userAuthRepositoryPort;
     private final UserProfileRepositoryPort userProfileRepositoryPort;
     private final PasswordHashPort passwordHashPort;
+    private final GenerateTokenPort generateTokenPort;
 
     @Transactional
-    public void execute(String name, String lastname, String email, String username, String password) {
+    public String execute(String name, String lastname, String email, String username, String password) {
         if (userAuthRepositoryPort.existsByEmail(email)) {
             throw new IllegalArgumentException("El email ya está siendo usado por otro usuario");
         }
@@ -39,5 +41,7 @@ public class RegisterUserUseCase {
 
         userAuthRepositoryPort.save(userAuth);
         userProfileRepositoryPort.save(userProfile);
+
+        return generateTokenPort.generateToken(email);
     }
 }
