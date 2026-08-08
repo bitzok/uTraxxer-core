@@ -5,9 +5,9 @@ services:
     image: postgres:15-alpine
     container_name: db-utraxxer
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: utraxxer_db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5433:5432"
     volumes:
