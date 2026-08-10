@@ -6,6 +6,7 @@ import com.utraxxer.core.identity.model.LoginRequest;
 import com.utraxxer.core.identity.model.RegisterRequest;
 import com.utraxxer.core.identity.application.usecase.RegisterUserUseCase;
 import com.utraxxer.core.identity.application.usecase.LoginUseCase;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ public class AuthController implements AuthApi {
     private final LoginUseCase loginUseCase;
 
     @Override
+    @RateLimiter(name = "auth-limit")
     public ResponseEntity<IdentityResponse> registerUser(@Valid RegisterRequest registerRequest){
         String token = registerUserUseCase.execute(
                 registerRequest.getName(),
@@ -33,6 +35,7 @@ public class AuthController implements AuthApi {
     }
 
     @Override
+    @RateLimiter(name = "auth-limit")
     public ResponseEntity<IdentityResponse> loginUser(@Valid LoginRequest loginRequest) {
         String token = loginUseCase.execute(
                 loginRequest.getUsername(),

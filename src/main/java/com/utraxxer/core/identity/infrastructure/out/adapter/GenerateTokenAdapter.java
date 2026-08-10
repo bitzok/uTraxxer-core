@@ -19,12 +19,21 @@ public class GenerateTokenAdapter implements GenerateTokenPort {
     @Value("${jwt.expiration}")
     private Long expirationTime;
 
+    @Value("${jwt.issuer}")
+    private String issuer;
+
+    @Value("${jwt.audience}")
+    private String audience;
+
     @Override
     public String generateToken(String email){
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
         return Jwts.builder()
                 .setSubject(email)
+                .setIssuer(issuer)
+                .setAudience(audience)
+                .setId(java.util.UUID.randomUUID().toString())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(key, SignatureAlgorithm.HS256)
