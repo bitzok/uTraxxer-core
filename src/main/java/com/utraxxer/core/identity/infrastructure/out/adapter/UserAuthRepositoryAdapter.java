@@ -32,6 +32,9 @@ public class UserAuthRepositoryAdapter implements UserAuthRepositoryPort {
             UserAuth domainUser = new UserAuth();
             domainUser.setEmail(entity.getEmail());
             domainUser.setPassword(entity.getPassword());
+            domainUser.setState(entity.getState());
+            domainUser.setUsername(entity.getUsername());
+
             return domainUser;
         });
     }

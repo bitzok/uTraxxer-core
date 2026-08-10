@@ -1,5 +1,6 @@
 package com.utraxxer.core.identity.application.usecase;
 
+import com.utraxxer.core.identity.domain.exception.InvalidCredentialsException;
 import com.utraxxer.core.identity.domain.model.UserAuth;
 import com.utraxxer.core.identity.domain.port.GenerateTokenPort;
 import com.utraxxer.core.identity.domain.port.PasswordHashPort;
@@ -17,10 +18,14 @@ public class LoginUseCase {
 
     @Transactional
     public String execute(String identifier, String password){
-        UserAuth userFind = userAuthRepositoryPort.findByEmailOrUsername(identifier).orElseThrow(() -> new IllegalArgumentException("El usuario no existe"));
+        UserAuth userFind = userAuthRepositoryPort.findByEmailOrUsername(identifier).orElseThrow(() -> new InvalidCredentialsException("Credenciales inválidas"));
+
+        if (!"active".equals(userFind.getState())) {
+            throw new InvalidCredentialsException("Credenciales inválidas");
+        }
 
         if (!passwordHashPort.matches(password, userFind.getPassword())) {
-            throw new IllegalArgumentException("La contraseña es errónea");
+            throw new InvalidCredentialsException("Credenciales inválidas");
         }
         return generateTokenPort.generateToken(userFind.getEmail());
     }

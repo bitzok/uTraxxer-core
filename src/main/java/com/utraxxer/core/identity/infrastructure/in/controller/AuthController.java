@@ -6,6 +6,7 @@ import com.utraxxer.core.identity.model.LoginRequest;
 import com.utraxxer.core.identity.model.RegisterRequest;
 import com.utraxxer.core.identity.application.usecase.RegisterUserUseCase;
 import com.utraxxer.core.identity.application.usecase.LoginUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +18,7 @@ public class AuthController implements AuthApi {
     private final LoginUseCase loginUseCase;
 
     @Override
-    public ResponseEntity<IdentityResponse> registerUser(RegisterRequest registerRequest){
+    public ResponseEntity<IdentityResponse> registerUser(@Valid RegisterRequest registerRequest){
         String token = registerUserUseCase.execute(
                 registerRequest.getName(),
                 registerRequest.getLastname(),
@@ -32,7 +33,7 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public ResponseEntity<IdentityResponse> loginUser(LoginRequest loginRequest) {
+    public ResponseEntity<IdentityResponse> loginUser(@Valid LoginRequest loginRequest) {
         String token = loginUseCase.execute(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
