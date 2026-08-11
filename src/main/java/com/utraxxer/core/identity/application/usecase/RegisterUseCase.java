@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class RegisterUserUseCase {
+public class RegisterUseCase {
     private final UserAuthRepositoryPort userAuthRepositoryPort;
     private final UserProfileRepositoryPort userProfileRepositoryPort;
     private final PasswordHashPort passwordHashPort;

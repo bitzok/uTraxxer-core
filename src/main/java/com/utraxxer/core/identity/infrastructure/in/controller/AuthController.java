@@ -4,7 +4,7 @@ import com.utraxxer.core.identity.api.AuthApi;
 import com.utraxxer.core.identity.model.IdentityResponse;
 import com.utraxxer.core.identity.model.LoginRequest;
 import com.utraxxer.core.identity.model.RegisterRequest;
-import com.utraxxer.core.identity.application.usecase.RegisterUserUseCase;
+import com.utraxxer.core.identity.application.usecase.RegisterUseCase;
 import com.utraxxer.core.identity.application.usecase.LoginUseCase;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import jakarta.validation.Valid;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 public class AuthController implements AuthApi {
-    private final RegisterUserUseCase registerUserUseCase;
+    private final RegisterUseCase registerUserUseCase;
     private final LoginUseCase loginUseCase;
 
     @Override
