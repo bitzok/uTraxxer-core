@@ -58,15 +58,17 @@ components:
     LoginRequest:
       type: object
       required:
-        - username
+        - identifier
         - password
       properties:
-        username:
+        identifier:
           type: string
+          minLength: 1
           maxLength: 20
           example: 'uTraxxerG0d'
         password:
           type: string
+          minLength: 1
           maxLength: 20
           example: 'P455w0rd'
     RegisterRequest:

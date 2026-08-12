@@ -38,7 +38,7 @@ public class AuthController implements AuthApi {
     @RateLimiter(name = "auth-limit")
     public ResponseEntity<IdentityResponse> loginUser(@Valid LoginRequest loginRequest) {
         String token = loginUseCase.execute(
-                loginRequest.getUsername(),
+                loginRequest.getIdentifier(),
                 loginRequest.getPassword()
         );
         IdentityResponse response = new IdentityResponse();
