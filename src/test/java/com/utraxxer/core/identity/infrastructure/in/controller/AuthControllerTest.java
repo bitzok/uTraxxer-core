@@ -30,7 +30,7 @@ public class AuthControllerTest {
 
     @Test
     @WithMockUser
-    public void shouldReturn200AndTokenWhenRequestIsValid() throws Exception{
+    public void shouldRegisterReturn200AndTokenWhenRequestIsValid() throws Exception{
         String body = """
                 {
                     "name": "User",
@@ -43,11 +43,106 @@ public class AuthControllerTest {
         when(registerUseCase.execute(anyString(), anyString(), anyString(), anyString(), anyString())).thenReturn("token");
 
         mockMvc.perform(post("/register")
-                .with(csrf())
-                .contentType("application/json")
-                .content(body))
+                        .with(csrf())
+                        .contentType("application/json")
+                        .content(body))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.token").value("token"));
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldRegisterReturn400WhenRequestIsNull() throws Exception{
+        String body = """
+                {
+                    "name": "User",
+                    "lastname": "",
+                    "email": "test@test.com",
+                    "username": "testuser",
+                    "password": "Password123!"
+                }
+                """;
+        mockMvc.perform(post("/register")
+                        .with(csrf())
+                        .contentType("application/json")
+                        .content(body))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldReturn400WhenRequestIsFakeEmail() throws Exception{
+        String body = """
+                {
+                    "name": "User",
+                    "lastname": "Test",
+                    "email": "testtest.com",
+                    "username": "testuser",
+                    "password": "Password123!"
+                }
+                """;
+        mockMvc.perform(post("/register")
+                        .with(csrf())
+                        .contentType("application/json")
+                        .content(body))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldReturn400WhenRequestIsEasyPassword() throws Exception{
+        String body = """
+                {
+                    "name": "User",
+                    "lastname": "Test",
+                    "email": "test@test.com",
+                    "username": "testuser",
+                    "password": "test"
+                }
+                """;
+        mockMvc.perform(post("/register")
+                        .with(csrf())
+                        .contentType("application/json")
+                        .content(body))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldLoginReturn200AndTokenWhenRequestIsValid() throws Exception{
+        String body = """
+                {
+                    "identifier": "testuser",
+                    "password": "Password123!"
+                }
+                """;
+        when(loginUseCase.execute(anyString(), anyString())).thenReturn("token");
+
+        mockMvc.perform(post("/login")
+                        .with(csrf())
+                        .contentType("application/json")
+                        .content(body))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.token").value("token"));
+    }
+
+    @Test
+    @WithMockUser
+    public void shouldLoginReturn400WhenRequestIsNull() throws Exception{
+        String body = """
+                {
+                    "identifier": "",
+                    "password": "Password123!"
+                }
+                """;
+        mockMvc.perform(post("/login")
+                        .with(csrf())
+                        .contentType("application/json")
+                        .content(body))
+                .andExpect(status().isBadRequest());
     }
 
 }
