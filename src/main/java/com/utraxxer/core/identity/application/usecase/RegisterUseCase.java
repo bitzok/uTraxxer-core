@@ -34,10 +34,12 @@ public class RegisterUseCase {
         userAuth.setUsername(username);
         userAuth.setState("active");
 
+        UserAuth savedUserAuth = userAuthRepositoryPort.save(userAuth);
+
         UserProfile userProfile = new UserProfile();
         userProfile.setName(name);
         userProfile.setLastname(lastname);
-        userProfile.setUserAuth(userAuth);
+        userProfile.setUserAuth(savedUserAuth);
 
         userAuthRepositoryPort.save(userAuth);
         userProfileRepositoryPort.save(userProfile);

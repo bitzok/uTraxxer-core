@@ -18,8 +18,9 @@ public class UserProfileRepositoryAdapter implements UserProfileRepositoryPort {
 
     @Override
     public void save(UserProfile userProfile) {
-        UserAuthEntity authEntity = authRepository.findByEmail(userProfile.getUserAuth().getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado para vincular el perfil"));
+        UserAuthEntity authEntity = authRepository.getReferenceById(
+                userProfile.getUserAuth().getId()
+        );
 
         UserProfileEntity profileEntity = new UserProfileEntity();
         profileEntity.setName(userProfile.getName());

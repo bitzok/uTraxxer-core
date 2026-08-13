@@ -40,13 +40,22 @@ public class UserAuthRepositoryAdapter implements UserAuthRepositoryPort {
     }
 
     @Override
-    public void save(UserAuth user) {
+    public UserAuth save(UserAuth user) {
         UserAuthEntity entity = new UserAuthEntity();
         entity.setEmail(user.getEmail());
         entity.setUsername(user.getUsername());
         entity.setPassword(user.getPassword());
         entity.setState(user.getState());
 
-        springRepository.save(entity);
+        UserAuthEntity saved = springRepository.save(entity);
+
+        UserAuth savedDomain = new UserAuth();
+        savedDomain.setId(saved.getId());
+        savedDomain.setEmail(saved.getEmail());
+        savedDomain.setUsername(saved.getUsername());
+        savedDomain.setPassword(saved.getPassword());
+        savedDomain.setState(saved.getState());
+
+        return savedDomain;
     }
 }
