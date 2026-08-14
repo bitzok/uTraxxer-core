@@ -1,6 +1,7 @@
 package com.utraxxer.core.identity.infrastructure.out.adapter;
 
 import com.utraxxer.core.identity.domain.model.UserAuth;
+import com.utraxxer.core.identity.domain.model.UserState;
 import com.utraxxer.core.identity.domain.port.UserAuthRepositoryPort;
 import com.utraxxer.core.identity.infrastructure.out.entity.UserAuthEntity;
 import com.utraxxer.core.identity.infrastructure.out.repository.UserAuthRepository;
@@ -29,11 +30,14 @@ public class UserAuthRepositoryAdapter implements UserAuthRepositoryPort {
         Optional<UserAuthEntity> userAuth = springRepository.findByEmailOrUsername(identifier, identifier);
 
         return userAuth.map(entity -> {
-            UserAuth domainUser = new UserAuth();
-            domainUser.setEmail(entity.getEmail());
-            domainUser.setPassword(entity.getPassword());
-            domainUser.setState(entity.getState());
-            domainUser.setUsername(entity.getUsername());
+            UserAuth domainUser = UserAuth.restoreFromRepository(
+                    entity.getId(),
+                    entity.getEmail(),
+                    entity.getUsername(),
+                    entity.getPassword(),
+                    UserState.valueOf(entity.getState().toUpperCase()),
+                    entity.getCreatedAt()
+            );
 
             return domainUser;
         });
@@ -42,20 +46,22 @@ public class UserAuthRepositoryAdapter implements UserAuthRepositoryPort {
     @Override
     public UserAuth save(UserAuth user) {
         UserAuthEntity entity = new UserAuthEntity();
+        entity.setId(user.getId());
         entity.setEmail(user.getEmail());
         entity.setUsername(user.getUsername());
         entity.setPassword(user.getPassword());
-        entity.setState(user.getState());
+        entity.setState(user.getState().name());
+        entity.setCreatedAt(user.getCreatedAt());
 
         UserAuthEntity saved = springRepository.save(entity);
 
-        UserAuth savedDomain = new UserAuth();
-        savedDomain.setId(saved.getId());
-        savedDomain.setEmail(saved.getEmail());
-        savedDomain.setUsername(saved.getUsername());
-        savedDomain.setPassword(saved.getPassword());
-        savedDomain.setState(saved.getState());
-
-        return savedDomain;
+        return UserAuth.restoreFromRepository(
+                saved.getId(),
+                saved.getEmail(),
+                saved.getUsername(),
+                saved.getPassword(),
+                UserState.valueOf(saved.getState().toUpperCase()),
+                saved.getCreatedAt()
+        );
     }
 }

@@ -2,6 +2,7 @@ package com.utraxxer.core.identity.application.usecase;
 
 import com.utraxxer.core.identity.domain.exception.InvalidCredentialsException;
 import com.utraxxer.core.identity.domain.model.UserAuth;
+import com.utraxxer.core.identity.domain.model.UserState;
 import com.utraxxer.core.identity.domain.port.GenerateTokenPort;
 import com.utraxxer.core.identity.domain.port.PasswordHashPort;
 import com.utraxxer.core.identity.domain.port.UserAuthRepositoryPort;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.Instant;
 
 import static org.mockito.Mockito.when;
 
@@ -30,11 +33,7 @@ public class LoginUseCaseTest {
         String identifier = "testuser";
         String password = "Password123!";
 
-        UserAuth userAuth = new UserAuth();
-        userAuth.setUsername("testuser");
-        userAuth.setEmail("test@test.com");
-        userAuth.setState("active");
-        userAuth.setPassword("hashedPassword");
+        UserAuth userAuth = UserAuth.restoreFromRepository(1L, "test@test.com", "testuser", "Password123!", UserState.ACTIVE, Instant.now());
 
         when(userAuthRepositoryPort.findByEmailOrUsername(identifier)).thenReturn(java.util.Optional.of(userAuth));
         when(passwordHashPort.matches(password, userAuth.getPassword())).thenReturn(true);
@@ -63,11 +62,7 @@ public class LoginUseCaseTest {
         String identifier = "testuser";
         String password = "Password123!";
 
-        UserAuth userAuth = new UserAuth();
-        userAuth.setUsername("testuser");
-        userAuth.setEmail("test@test.com");
-        userAuth.setState("inactive");
-        userAuth.setPassword("hashedPassword");
+        UserAuth userAuth = UserAuth.restoreFromRepository(1L, "test@test.com", "testuser", "Password123!", UserState.INACTIVE, Instant.now());
 
         when(userAuthRepositoryPort.findByEmailOrUsername(identifier)).thenReturn(java.util.Optional.of(userAuth));
 
@@ -82,11 +77,7 @@ public class LoginUseCaseTest {
         String identifier = "testuser";
         String password = "Password123!";
 
-        UserAuth userAuth = new UserAuth();
-        userAuth.setUsername("testuser");
-        userAuth.setEmail("test@test.com");
-        userAuth.setState("active");
-        userAuth.setPassword("hashedPassword");
+        UserAuth userAuth = UserAuth.restoreFromRepository(1L, "test@test.com", "testuser", "password", UserState.ACTIVE, Instant.now());
 
         when(userAuthRepositoryPort.findByEmailOrUsername(identifier)).thenReturn(java.util.Optional.of(userAuth));
         when(passwordHashPort.matches(password, userAuth.getPassword())).thenReturn(false);

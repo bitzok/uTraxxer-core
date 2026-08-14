@@ -17,16 +17,24 @@ public class UserProfileRepositoryAdapter implements UserProfileRepositoryPort {
     private final UserAuthRepository authRepository;
 
     @Override
-    public void save(UserProfile userProfile) {
+    public UserProfile save(UserProfile userProfile) {
         UserAuthEntity authEntity = authRepository.getReferenceById(
                 userProfile.getUserAuth().getId()
         );
 
         UserProfileEntity profileEntity = new UserProfileEntity();
+        profileEntity.setId(userProfile.getId());
         profileEntity.setName(userProfile.getName());
         profileEntity.setLastname(userProfile.getLastname());
-
         profileEntity.setUserAuthEntity(authEntity);
-        profileRepository.save(profileEntity);
+
+        UserProfileEntity saved = profileRepository.save(profileEntity);
+
+        return UserProfile.restoreFromRepository(
+                saved.getId(),
+                userProfile.getUserAuth(),
+                saved.getName(),
+                saved.getLastname()
+        );
     }
 }

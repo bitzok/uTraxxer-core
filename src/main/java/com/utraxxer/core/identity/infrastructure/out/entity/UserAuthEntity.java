@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Getter
@@ -29,6 +29,5 @@ public class UserAuthEntity {
     private String state;
 
     @Column
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    private Instant createdAt;
 }

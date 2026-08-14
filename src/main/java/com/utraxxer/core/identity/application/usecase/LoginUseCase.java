@@ -20,7 +20,7 @@ public class LoginUseCase {
     public String execute(String identifier, String password){
         UserAuth userFind = userAuthRepositoryPort.findByEmailOrUsername(identifier).orElseThrow(() -> new InvalidCredentialsException("Credenciales inválidas"));
 
-        if (!"active".equals(userFind.getState())) {
+        if (!userFind.isActive()) {
             throw new InvalidCredentialsException("Credenciales inválidas");
         }
 

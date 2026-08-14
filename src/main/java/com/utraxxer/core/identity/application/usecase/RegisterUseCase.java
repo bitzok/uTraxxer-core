@@ -28,20 +28,12 @@ public class RegisterUseCase {
         }
         String encodedPassword = passwordHashPort.encode(password);
 
-        UserAuth userAuth = new UserAuth();
-        userAuth.setEmail(email);
-        userAuth.setPassword(encodedPassword);
-        userAuth.setUsername(username);
-        userAuth.setState("active");
+        UserAuth userAuth = UserAuth.createNew(email, username, encodedPassword);
 
         UserAuth savedUserAuth = userAuthRepositoryPort.save(userAuth);
 
-        UserProfile userProfile = new UserProfile();
-        userProfile.setName(name);
-        userProfile.setLastname(lastname);
-        userProfile.setUserAuth(savedUserAuth);
+        UserProfile userProfile = UserProfile.createNew(savedUserAuth, name, lastname);
 
-        userAuthRepositoryPort.save(userAuth);
         userProfileRepositoryPort.save(userProfile);
 
         return generateTokenPort.generateToken(email);
