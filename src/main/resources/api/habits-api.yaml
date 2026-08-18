@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: uTraxxer - Módulo Habits - API
+  description: Módulo de gestión de hábitos para uTraxxer.
+  version: 1.0.0
+
+security:
+  - bearerAuth: []
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Localhost server to test
+
+paths:
+  /colors:
+    get:
+      tags:
+        - Customize
+      operationId: getColors
+      summary: Obtiene la lista de colores disponibles para los hábitos.
+      responses:
+        '200':
+          description: Lista de colores obtenida correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ColorResponse'
+        '400':
+          description: Error al obtener la lista de colores.
+  /icons:
+    get:
+      tags:
+        - Customize
+      operationId: getIcons
+      summary: Obtiene la lista de iconos disponibles para los hábitos.
+      responses:
+        '200':
+          description: Lista de iconos obtenida correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IconResponse'
+        '400':
+          description: Error al obtener la lista de iconos.
+  /intervale:
+    get:
+      tags:
+        - Customize
+      operationId: getIntervales
+      summary: Obtiene la lista de intervalos disponibles para los hábitos.
+      responses:
+        '200':
+          description: Lista de intervalos obtenida correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IntervaleResponse'
+        '400':
+          description: Error al obtener la lista de intervalos.
+  /habits:
+    get:
+      tags:
+        - Habits
+      operationId: getHabits
+      summary: Obtiene la lista de hábitos del usuario.
+      responses:
+        '200':
+          description: Lista de hábitos obtenida correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HabitResponse'
+        '400':
+          description: Error al obtener la lista de hábitos.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ColorResponse:
+      type: object
+      required:
+        - id
+        - name
+        - hexCode
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID del color.
+          example: 1
+        name:
+          type: string
+          description: Nombre del color.
+          example: 'Rojo'
+        hexCode:
+          type: string
+          description: Código hexadecimal del color.
+          example: '#FF0000'
+    IconResponse:
+      type: object
+      required:
+        - id
+        - name
+        - svgPath
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID del icono.
+          example: 1
+        name:
+          type: string
+          description: Nombre del icono.
+          example: 'Rojo'
+        svgPath:
+          type: string
+          description: Ruta del archivo SVG del icono.
+          example: 'path/to/icon.svg'
+    IntervaleResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID del intervalo.
+          example: 1
+        name:
+          type: string
+          description: Nombre del intervalo.
+          example: 'Diario'
+    HabitResponse:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - fechaInicio
+        - recordatorio
+        - intervaloId
+        - colorId
+        - iconId
+        - fechaCreacion
+        - fechaActualizacion
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: ID del hábito.
+          example: 1
+        name:
+          type: string
+          description: Nombre del hábito.
+          example: 'Hábito de ejemplo'
+        description:
+          type: string
+          description: Descripción del hábito.
+          example: 'Este es un hábito de ejemplo.'
+        fechaInicio:
+          type: string
+          format: date-time
+          description: Fecha de inicio del hábito.
+          example: '2024-01-01T00:00:00Z'
+        recordatorio:
+          type: string
+          format: date-time
+          description: Fecha y hora del recordatorio del hábito.
+          example: '2024-01-01T08:00:00Z'
+        intervaloId:
+          type: integer
+          format: int64
+          description: ID del intervalo asociado al hábito.
+          example: 1
+        colorId:
+          type: integer
+          format: int64
+          description: ID del color asociado al hábito.
+          example: 1
+        iconId:
+          type: integer
+          format: int64
+          description: ID del icono asociado al hábito.
+          example: 1
+        fechaCreacion:
+          type: string
+          format: date-time
+          description: Fecha de creación del hábito.
+          example: '2024-01-01T00:00:00Z'
+        fechaActualizacion:
+          type: string
+          format: date-time
+          description: Fecha de actualización del hábito.
+          example: '2024-01-01T00:00:00Z'

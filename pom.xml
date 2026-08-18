@@ -206,6 +206,24 @@
 							</configOptions>
 						</configuration>
 					</execution>
+					<execution>
+						<id>generate-habits-api</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/api/habits-api.yaml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>com.utraxxer.core.habits.api</apiPackage>
+							<modelPackage>com.utraxxer.core.habits.model</modelPackage>
+							<configOptions>
+								<interfaceOnly>true</interfaceOnly>
+								<useSpringBoot3>true</useSpringBoot3>
+								<useJakartaEe>true</useJakartaEe>
+								<useTags>true</useTags>
+							</configOptions>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>
