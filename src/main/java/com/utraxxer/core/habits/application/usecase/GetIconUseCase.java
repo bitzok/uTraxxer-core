@@ -1,7 +1,7 @@
 package com.utraxxer.core.habits.application.usecase;
 
-import com.utraxxer.core.habits.domain.model.Color;
-import com.utraxxer.core.habits.domain.port.ColorRepositoryPort;
+import com.utraxxer.core.habits.domain.model.Icon;
+import com.utraxxer.core.habits.domain.port.IconRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,12 +10,10 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class GetColorsUseCase {
-    private final ColorRepositoryPort colorRepositoryPort;
+public class GetIconUseCase {
+    private final IconRepositoryPort iconRepositoryPort;
 
     @Transactional(readOnly = true)
-    public List<Color> execute() {
-        return colorRepositoryPort.findAll();
-    }
+    public List<Icon> execute() { return iconRepositoryPort.findAll(); }
 
 }
