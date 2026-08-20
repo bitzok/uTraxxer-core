@@ -7,8 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
-public class GlobalExceptionHandler {
+@RestControllerAdvice(basePackages = "com.utraxxer.core.identity")
+public class IdentityExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> handlerException(IllegalArgumentException ex){
         ErrorResponse errorResponse = new ErrorResponse();
@@ -31,14 +31,5 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
-    @ExceptionHandler(io.github.resilience4j.ratelimiter.RequestNotPermitted.class)
-    public ResponseEntity<ErrorResponse> rateLimitException(io.github.resilience4j.ratelimiter.RequestNotPermitted ex){
-        ErrorResponse errorResponse = new ErrorResponse();
-        errorResponse.setStatus(429);
-        errorResponse.setError("Too Many Requests");
-        errorResponse.setMessage("Has superado el límite de intentos permitidos.");
-        errorResponse.setTimestamp(java.time.LocalDateTime.now());
 
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body(errorResponse);
-    }
 }
