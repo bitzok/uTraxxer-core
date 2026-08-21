@@ -46,7 +46,7 @@ paths:
                   $ref: '#/components/schemas/IconResponse'
         '400':
           description: Error al obtener la lista de iconos.
-  /intervale:
+  /intervales:
     get:
       tags:
         - Customize
