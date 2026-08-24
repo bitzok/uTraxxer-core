@@ -31,16 +31,16 @@ public class HabitEntity {
     @Column(nullable=true)
     private Instant reminderTime;
 
-    @OneToOne
-    @JoinColumn(name = "intervales", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "intervale_id", nullable = false)
     private IntervaleEntity intervale;
 
-    @OneToOne
-    @JoinColumn(name = "colors", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "color_id", nullable = false)
     private ColorEntity color;
 
-    @OneToOne
-    @JoinColumn(name = "icons", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "icon_id", nullable = false)
     private IconEntity icon;
 
     @Column(name = "user_id", nullable = false)
